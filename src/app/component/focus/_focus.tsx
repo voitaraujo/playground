@@ -1,24 +1,40 @@
-'use client';
+"use client"
 
-import { type ReactElement, type ReactNode, cloneElement, useId, useRef } from 'react';
+import { cloneElement, forwardRef, useEffect, useId, useRef, type ForwardedRef, type ReactElement, type ReactNode } from 'react';
 
 import Tippy, { type TippyProps } from '@tippyjs/react/headless';
-import { HTMLMotionProps, SpringOptions, motion, useSpring } from 'framer-motion';
+import { motion, useSpring, type HTMLMotionProps, type SpringOptions } from 'framer-motion';
 import { followCursor } from 'tippy.js/headless';
 
+function useForwardedRef<T>(ref: ForwardedRef<T>) {
+	const innerRef = useRef<T>(null);
+
+	useEffect(() => {
+			if (!ref) return;
+			if (typeof ref === 'function') {
+					ref(innerRef.current);
+			} else {
+					ref.current = innerRef.current;
+			}
+	});
+
+	return innerRef;
+}
+
 interface FocusProps {
-	children: ReactElement;
+	children: ReactElement; // since the children will be cloned & receive a ref, it has to be an ReactElement instead of ReactNode
 	content: ReactNode;
 	contentContainerProps?: HTMLMotionProps<'div'>;
 }
 
+// CONSTANTS
 const springConfig = { damping: 50, stiffness: 500 } satisfies SpringOptions;
 const initial_y = -10;
 const initial_scale = 0.9;
 
-function Focus({ children, content: Content, contentContainerProps }: FocusProps) {
-	const targetRef = useRef<HTMLElement>(null);
-	const instanceId = useId();
+const Focus = forwardRef<HTMLElement, FocusProps>(({ children, content: Content, contentContainerProps }, ref) => {
+	const targetRef = useForwardedRef(ref); // ref for the element that will trigger the tooltip
+	const instanceId = useId(); // id that we'll use to track overlay & cloned elements
 
 	const opacity = useSpring(0, springConfig);
 	const scale = useSpring(initial_scale, springConfig);
@@ -52,8 +68,6 @@ function Focus({ children, content: Content, contentContainerProps }: FocusProps
 	}
 
 	function setupOverlayElement(el: HTMLDivElement) {
-		// const overlay = document.getElementById(`overlay-${instanceId}`);
-
 		el.style.position = 'fixed';
 		el.style.pointerEvents = 'none';
 		el.style.left = '0';
@@ -232,17 +246,17 @@ function Focus({ children, content: Content, contentContainerProps }: FocusProps
 			<Tippy
 				render={(attrs) => {
 					return (
-						<motion.div
-							style={{
-								opacity,
-								scale,
-								y,
-							}}
-							{...contentContainerProps}
-							{...attrs}
-						>
-							{Content}
-						</motion.div>
+							<motion.div
+								style={{
+									opacity,
+									scale,
+									y,
+								}}
+								{...contentContainerProps}
+								{...attrs}
+							>
+								{Content}
+							</motion.div>
 					);
 				}}
 				plugins={[followCursor]}
@@ -255,6 +269,6 @@ function Focus({ children, content: Content, contentContainerProps }: FocusProps
 			/>
 		</>
 	);
-}
+})
 
 export { Focus };
