@@ -271,4 +271,6 @@ const Focus = forwardRef<HTMLElement, FocusProps>(({ children, content: Content,
 	);
 })
 
+Focus.displayName = 'Focus';
+
 export { Focus };
