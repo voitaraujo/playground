@@ -1,7 +1,6 @@
 import Image from 'next/image';
 
-
-import { ArrowTopRightIcon } from '@radix-ui/react-icons';
+import { ArrowTopRightIcon, GitHubLogoIcon } from '@radix-ui/react-icons';
 
 import ComponentInfo from '@/components/component-info';
 
@@ -15,14 +14,33 @@ async function Page() {
 					<ComponentInfo.Title title='Focus wrapper' />
 					<ComponentInfo.Description description='Wrap React elements with this component to draw the user attention to whatever you place inside the tooltip.' />
 
-					<a
-						className='group mb-4 mt-12 inline-flex w-fit items-center font-mono underline-offset-2 hover:underline'
-						target='_blank'
-						href='https://voit.dev/thoughts/ios-like-effect'
-					>
-						read more
-						<ArrowTopRightIcon className='opacity-0 group-hover:opacity-100' />
-					</a>
+					<div className='mb-4 mt-12 flex items-center gap-8'>
+						<a
+							className='group inline-flex w-fit items-center font-mono underline-offset-2 hover:underline'
+							target='_blank'
+							href='https://voit.dev/thoughts/ios-like-effect'
+						>
+							<Image
+								className='mr-2'
+								src='https://voit.dev/favicon.svg'
+								width={16}
+								height={16}
+								alt='voit.dev logo'
+							/>
+							read more
+							<ArrowTopRightIcon className='opacity-0 group-hover:opacity-100' />
+						</a>
+						<a
+							className='group inline-flex w-fit items-center font-mono underline-offset-2 hover:underline'
+							target='_blank'
+							rel='noreferrer'
+							href='https://gist.github.com/voitaraujo/91eda300afd35aeb6ab419e55e7447aa'
+						>
+							<GitHubLogoIcon className='mr-2' />
+							code
+							<ArrowTopRightIcon className='opacity-0 group-hover:opacity-100' />
+						</a>
+					</div>
 				</ComponentInfo.Left>
 				<ComponentInfo.Right>
 					<ComponentInfo.PresentationContainer>
