@@ -31,7 +31,7 @@ function PresentationContainer({ children }: { children: ReactNode }) {
 	return (
 		<div
 			className={
-				'flex w-full flex-col items-center justify-center rounded-md border-2 border-dashed border-zinc-400/30 bg-neutral-50 py-16 shadow-xl dark:border-neutral-300/10 dark:bg-zinc-800'
+				'flex w-full flex-col items-center justify-center rounded-md border-2 border-dashed border-zinc-400/30 bg-neutral-50 py-16 px-4 shadow-xl dark:border-neutral-300/10 dark:bg-zinc-800'
 			}
 		>
 			{children}
