@@ -45,7 +45,7 @@ async function Page() {
 				<ComponentInfo.Right>
 					<ComponentInfo.PresentationContainer>
 						<p className='text-center'>
-							try to hover{' '}
+							try to hover(or press){' '}
 							<Focus
 								content={
 									<p>
@@ -80,6 +80,7 @@ async function Page() {
 								src='/ph.png'
 								width={100}
 								height={100}
+								quality={100}
 								alt='Picture of the author'
 							/>
 						</Focus>
